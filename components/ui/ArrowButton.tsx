@@ -3,6 +3,7 @@ type ArrowButtonProps = {
   href?: string;
   type?: "button" | "submit";
   className?: string;
+  disabled?: boolean;
 };
 
 export function ArrowButton({
@@ -10,8 +11,9 @@ export function ArrowButton({
   href,
   type = "button",
   className = "",
+  disabled = false,
 }: ArrowButtonProps) {
-  const classes = `inline-flex h-11 items-center justify-center gap-2 rounded-[9px] bg-[var(--accent)] px-3 text-[14px] font-medium leading-none whitespace-nowrap text-[var(--foreground)] transition hover:brightness-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--foreground)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)] md:h-[60px] md:gap-3 md:px-5 md:text-[24px] ${className}`;
+  const classes = `inline-flex h-11 items-center justify-center gap-2 rounded-[9px] bg-[var(--accent)] px-3 text-[14px] font-medium leading-none whitespace-nowrap text-[var(--foreground)] transition hover:brightness-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--foreground)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)] disabled:cursor-wait disabled:hover:brightness-100 md:h-[60px] md:gap-3 md:px-5 md:text-[24px] ${className}`;
   const isExternal = href?.startsWith("http");
   const content = (
     <>
@@ -31,7 +33,7 @@ export function ArrowButton({
   }
 
   return (
-    <button className={classes} type={type}>
+    <button aria-busy={disabled} className={classes} disabled={disabled} type={type}>
       {content}
     </button>
   );

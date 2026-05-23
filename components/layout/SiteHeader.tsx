@@ -3,6 +3,7 @@ import { navItems } from "@/lib/content";
 const headerBehaviorScript = `
 (() => {
   const header = document.getElementById('site-header');
+  const mobileMenu = document.getElementById('mobile-menu');
   if (!header) return;
 
   let lastScrollY = window.scrollY;
@@ -41,6 +42,18 @@ const headerBehaviorScript = `
 
   window.addEventListener('scroll', onScroll, { passive: true });
   updateHeader();
+
+  if (mobileMenu instanceof HTMLDetailsElement) {
+    const closeMobileMenu = () => {
+      mobileMenu.open = false;
+    };
+
+    mobileMenu.querySelectorAll('a[href^="#"]').forEach((link) => {
+      link.addEventListener('click', closeMobileMenu);
+    });
+
+    window.addEventListener('hashchange', closeMobileMenu);
+  }
 })();
 `;
 
@@ -75,7 +88,7 @@ export function SiteHeader() {
             </a>
           </nav>
 
-          <details className="group md:hidden">
+          <details className="group md:hidden" id="mobile-menu">
             <summary
               aria-controls="mobile-navigation"
               aria-label="Toggle menu"

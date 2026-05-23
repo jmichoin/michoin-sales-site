@@ -2,34 +2,61 @@
 
 import { ArrowButton } from "@/components/ui/ArrowButton";
 import { HighlightedHeading } from "@/components/ui/HighlightedHeading";
+import { useState } from "react";
 import type { FormEvent } from "react";
 
-const contactEmail = "jmichoin@gmail.com";
+type FormStatus = "idle" | "loading" | "success" | "error";
 
 export function ContactSection() {
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  const [status, setStatus] = useState<FormStatus>("idle");
+  const [statusMessage, setStatusMessage] = useState("");
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const formData = new FormData(event.currentTarget);
+    if (status === "loading") {
+      return;
+    }
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
     const name = String(formData.get("name") ?? "").trim();
     const email = String(formData.get("email") ?? "").trim();
-    const phone = String(formData.get("phone") ?? "").trim();
+    const company = String(formData.get("company") ?? "").trim();
     const message = String(formData.get("message") ?? "").trim();
 
-    const body = [
-      `Name: ${name}`,
-      `Email: ${email}`,
-      phone ? `Phone: ${phone}` : null,
-      "",
-      message,
-    ].filter(Boolean).join("\n");
+    setStatus("loading");
+    setStatusMessage("");
 
-    const params = new URLSearchParams({
-      subject: `Project inquiry from ${name || "website"}`,
-      body,
-    });
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          company,
+          message,
+        }),
+      });
 
-    window.location.href = `mailto:${contactEmail}?${params.toString()}`;
+      const payload = (await response.json().catch(() => null)) as { error?: string; success?: boolean } | null;
+
+      if (!response.ok || !payload?.success) {
+        setStatus("error");
+        setStatusMessage(payload?.error ?? "Something went wrong. Please try again.");
+        return;
+      }
+
+      form.reset();
+      setStatus("success");
+      setStatusMessage("Thanks, your message has been sent.");
+    } catch {
+      setStatus("error");
+      setStatusMessage("Something went wrong. Please try again.");
+    }
   }
 
   return (
@@ -55,10 +82,23 @@ export function ContactSection() {
           <div className="w-full space-y-10">
             <Field autoComplete="name" label="Your name" name="name" required />
             <Field autoComplete="email" label="Your email" name="email" required type="email" />
-            <Field autoComplete="tel" label="Your phone number" name="phone" type="tel" />
+            <Field autoComplete="organization" label="Your company" name="company" />
             <Field label="How can I help you" name="message" required textarea />
           </div>
-          <ArrowButton type="submit">Send</ArrowButton>
+          <div className="flex w-full flex-col items-end gap-3">
+            {statusMessage ? (
+              <p
+                aria-live="polite"
+                className="w-full text-left text-[14px] uppercase leading-[1.5] tracking-[0.08em] text-[var(--muted)]"
+                role={status === "error" ? "alert" : "status"}
+              >
+                {statusMessage}
+              </p>
+            ) : null}
+            <ArrowButton disabled={status === "loading"} type="submit">
+              {status === "loading" ? "Sending..." : "Send"}
+            </ArrowButton>
+          </div>
         </form>
       </div>
     </section>
@@ -90,7 +130,13 @@ function Field({
         {label}
       </label>
       {textarea ? (
-        <textarea className={`${fieldClass} min-h-[200px] resize-y py-4`} id={id} name={name} required={required} />
+        <textarea
+          autoComplete={autoComplete}
+          className={`${fieldClass} min-h-[200px] resize-y py-4`}
+          id={id}
+          name={name}
+          required={required}
+        />
       ) : (
         <input
           autoComplete={autoComplete}
