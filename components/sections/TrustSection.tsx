@@ -19,10 +19,12 @@ export function TrustSection() {
       </div>
 
       <div className="grid grid-cols-2 gap-x-6 gap-y-6 opacity-65 mix-blend-luminosity md:grid-cols-4 md:gap-x-8 md:gap-y-8 lg:grid-cols-8">
-        {assets.logos.map((logo, index) => (
+        {assets.logos.map((logo) => (
           <div className="flex h-12 items-center justify-center md:h-14" key={logo.src}>
             <img
-              alt={`Client logo ${index + 1}`}
+              alt={logo.alt}
+              decoding="async"
+              loading="lazy"
               className={`w-auto object-contain ${logo.className}`}
               src={logo.src}
             />

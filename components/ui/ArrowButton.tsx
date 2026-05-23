@@ -12,6 +12,7 @@ export function ArrowButton({
   className = "",
 }: ArrowButtonProps) {
   const classes = `inline-flex h-11 items-center justify-center gap-2 rounded-[9px] bg-[var(--accent)] px-3 text-[14px] font-medium leading-none whitespace-nowrap text-[var(--foreground)] transition hover:brightness-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--foreground)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)] md:h-[60px] md:gap-3 md:px-5 md:text-[24px] ${className}`;
+  const isExternal = href?.startsWith("http");
   const content = (
     <>
       <span className="whitespace-nowrap">{children}</span>
@@ -23,7 +24,7 @@ export function ArrowButton({
 
   if (href) {
     return (
-      <a className={classes} href={href}>
+      <a className={classes} href={href} rel={isExternal ? "noopener noreferrer" : undefined} target={isExternal ? "_blank" : undefined}>
         {content}
       </a>
     );

@@ -44,14 +44,14 @@ export const assets = {
   },
   profile: "/figma-assets/profile.png",
   logos: [
-    { src: "/figma-assets/logo-01.png", className: "max-h-6 max-w-[42px] md:max-h-7 md:max-w-[52px]" },
-    { src: "/figma-assets/logo-02.png", className: "max-h-9 max-w-[110px] md:max-h-10 md:max-w-[130px]" },
-    { src: "/figma-assets/logo-03.png", className: "max-h-6 max-w-[84px] md:max-h-7 md:max-w-[96px]" },
-    { src: "/figma-assets/logo-04.png", className: "max-h-8 max-w-[108px] md:max-h-9 md:max-w-[126px]" },
-    { src: "/figma-assets/logo-05.png", className: "max-h-9 max-w-[52px] md:max-h-10 md:max-w-[58px]" },
-    { src: "/figma-assets/logo-06.png", className: "max-h-9 max-w-[132px] md:max-h-10 md:max-w-[162px]" },
-    { src: "/figma-assets/logo-07.png", className: "max-h-9 max-w-[108px] md:max-h-10 md:max-w-[128px]" },
-    { src: "/figma-assets/logo-08.png", className: "max-h-9 max-w-[62px] md:max-h-10 md:max-w-[70px]" },
+    { alt: "AWS", src: "/figma-assets/logo-01.png", className: "max-h-6 max-w-[42px] md:max-h-7 md:max-w-[52px]" },
+    { alt: "Sitecore", src: "/figma-assets/logo-02.png", className: "max-h-9 max-w-[110px] md:max-h-10 md:max-w-[130px]" },
+    { alt: "Nulab", src: "/figma-assets/logo-03.png", className: "max-h-6 max-w-[84px] md:max-h-7 md:max-w-[96px]" },
+    { alt: "Gigster", src: "/figma-assets/logo-04.png", className: "max-h-8 max-w-[108px] md:max-h-9 md:max-w-[126px]" },
+    { alt: "Volkswagen", src: "/figma-assets/logo-05.png", className: "max-h-9 max-w-[52px] md:max-h-10 md:max-w-[58px]" },
+    { alt: "McDrogerie.ch", src: "/figma-assets/logo-06.png", className: "max-h-9 max-w-[132px] md:max-h-10 md:max-w-[162px]" },
+    { alt: "Slavia", src: "/figma-assets/logo-07.png", className: "max-h-9 max-w-[108px] md:max-h-10 md:max-w-[128px]" },
+    { alt: "Fine Labels", src: "/figma-assets/logo-08.png", className: "max-h-9 max-w-[62px] md:max-h-10 md:max-w-[70px]" },
   ],
 };
 

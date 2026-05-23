@@ -1,7 +1,37 @@
+"use client";
+
 import { ArrowButton } from "@/components/ui/ArrowButton";
 import { HighlightedHeading } from "@/components/ui/HighlightedHeading";
+import type { FormEvent } from "react";
+
+const contactEmail = "jmichoin@gmail.com";
 
 export function ContactSection() {
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    const name = String(formData.get("name") ?? "").trim();
+    const email = String(formData.get("email") ?? "").trim();
+    const phone = String(formData.get("phone") ?? "").trim();
+    const message = String(formData.get("message") ?? "").trim();
+
+    const body = [
+      `Name: ${name}`,
+      `Email: ${email}`,
+      phone ? `Phone: ${phone}` : null,
+      "",
+      message,
+    ].filter(Boolean).join("\n");
+
+    const params = new URLSearchParams({
+      subject: `Project inquiry from ${name || "website"}`,
+      body,
+    });
+
+    window.location.href = `mailto:${contactEmail}?${params.toString()}`;
+  }
+
   return (
     <section className="section-rule scroll-mt-28 pt-5" id="contact">
       <div className="grid gap-8 md:grid-cols-[minmax(260px,534px)_1fr] md:gap-[148px]">
@@ -21,12 +51,12 @@ export function ContactSection() {
           <a href="tel:+420721673055">(+420) 721 673 055</a>
         </address>
 
-        <form className="flex flex-col items-end gap-5">
+        <form aria-label="Contact form" className="flex flex-col items-end gap-5" onSubmit={handleSubmit}>
           <div className="w-full space-y-10">
-            <Field label="Your name" name="name" />
-            <Field label="Your email" name="email" type="email" />
-            <Field label="Your phone number" name="phone" type="tel" />
-            <Field label="How can I help you" name="message" textarea />
+            <Field autoComplete="name" label="Your name" name="name" required />
+            <Field autoComplete="email" label="Your email" name="email" required type="email" />
+            <Field autoComplete="tel" label="Your phone number" name="phone" type="tel" />
+            <Field label="How can I help you" name="message" required textarea />
           </div>
           <ArrowButton type="submit">Send</ArrowButton>
         </form>
@@ -40,11 +70,15 @@ function Field({
   name,
   type = "text",
   textarea = false,
+  autoComplete,
+  required = false,
 }: {
   label: string;
   name: string;
   type?: string;
   textarea?: boolean;
+  autoComplete?: string;
+  required?: boolean;
 }) {
   const id = `field-${name}`;
   const fieldClass =
@@ -56,9 +90,16 @@ function Field({
         {label}
       </label>
       {textarea ? (
-        <textarea className={`${fieldClass} min-h-[200px] resize-y py-4`} id={id} name={name} />
+        <textarea className={`${fieldClass} min-h-[200px] resize-y py-4`} id={id} name={name} required={required} />
       ) : (
-        <input className={`${fieldClass} h-[60px]`} id={id} name={name} type={type} />
+        <input
+          autoComplete={autoComplete}
+          className={`${fieldClass} h-[60px]`}
+          id={id}
+          name={name}
+          required={required}
+          type={type}
+        />
       )}
     </div>
   );

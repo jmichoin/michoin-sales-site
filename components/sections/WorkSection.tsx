@@ -9,7 +9,7 @@ function OfferGlyph({ variant }: { variant: "product" | "brand" }) {
     <div aria-hidden="true" className="relative w-full max-w-full">
       <picture>
         <source media="(min-width: 768px)" srcSet={icon.desktop} />
-        <img alt="" className="h-auto w-full max-w-[220px] object-contain md:max-w-[385px]" src={icon.mobile} />
+        <img alt="" className="h-auto w-full max-w-[220px] object-contain md:max-w-[385px]" decoding="async" loading="lazy" src={icon.mobile} />
       </picture>
     </div>
   );

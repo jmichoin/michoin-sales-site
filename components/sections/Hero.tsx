@@ -8,9 +8,15 @@ export function Hero() {
           Bridging strategy, UX and visual design
         </h1>
         <div className="grid overflow-hidden md:hidden">
-          {assets.heroMobile.map((src) => (
+          {assets.heroMobile.map((src, index) => (
             <div className="relative h-[330px] overflow-hidden" key={src}>
-              <img alt="" className="h-full w-full object-cover" src={src} />
+              <img
+                alt=""
+                className="h-full w-full object-cover"
+                decoding="async"
+                fetchPriority={index === 0 ? "high" : "auto"}
+                src={src}
+              />
             </div>
           ))}
         </div>
@@ -22,6 +28,8 @@ export function Hero() {
                 className={`h-full w-full object-cover ${
                   index === 0 ? "object-[36%_50%]" : index === 1 ? "object-[50%_42%]" : "object-[62%_50%]"
                 }`}
+                decoding="async"
+                fetchPriority={index === 0 ? "high" : "auto"}
                 src={src}
               />
             </div>
