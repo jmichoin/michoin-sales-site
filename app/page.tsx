@@ -1,5 +1,4 @@
 import { SiteHeader } from "@/components/layout/SiteHeader";
-import { StickyCta } from "@/components/layout/StickyCta";
 import { ApproachSection } from "@/components/sections/ApproachSection";
 import { ContactSection } from "@/components/sections/ContactSection";
 import { Hero } from "@/components/sections/Hero";
@@ -21,7 +20,6 @@ export default function Home() {
         <OffersSection />
         <ContactSection />
       </div>
-      <StickyCta />
     </main>
   );
 }
