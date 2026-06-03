@@ -253,7 +253,7 @@ export const locales = {
         },
         {
           title: "Výstupy jsou vizuálně slabé",
-          body: "Technicky správné, ale zaměnitelné, bez jasné brandové hrany.",
+          body: "Vizuální provedení je zaměnitelné, bez špetky originality.",
         },
       ],
       partnerTitle: "Jeden seniorní partner pro strategii, UX i vizuální ztvárnění",
