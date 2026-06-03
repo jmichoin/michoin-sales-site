@@ -235,7 +235,7 @@ export const locales = {
         {
           title: "Prémiové značky & vizuální směr",
           items: ["systém vizuální identity", "UI design", "Art direction", "kampaně", "animace & print"],
-          cta: "Příklady Brand projekty",
+          cta: "Příklady branding projektů",
           href: "https://michoin.com/",
         },
       ],
