@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { ApproachSection } from "@/components/sections/ApproachSection";
 import { ContactSection } from "@/components/sections/ContactSection";
@@ -8,8 +9,25 @@ import { TrustSection } from "@/components/sections/TrustSection";
 import { WorkSection } from "@/components/sections/WorkSection";
 import { locales } from "@/lib/content";
 
-export default function Home() {
-  const content = locales.en;
+export const metadata: Metadata = {
+  title: locales.cs.meta.title,
+  description: locales.cs.meta.description,
+  alternates: {
+    canonical: "/cs",
+    languages: {
+      en: "/",
+      cs: "/cs",
+    },
+  },
+  openGraph: {
+    title: locales.cs.meta.title,
+    description: locales.cs.meta.description,
+    url: "/cs",
+  },
+};
+
+export default function CzechHome() {
+  const content = locales.cs;
 
   return (
     <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">

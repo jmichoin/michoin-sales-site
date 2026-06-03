@@ -1,4 +1,4 @@
-import { navItems } from "@/lib/content";
+import type { PageContent } from "@/lib/content";
 
 const headerBehaviorScript = `
 (() => {
@@ -57,7 +57,7 @@ const headerBehaviorScript = `
 })();
 `;
 
-export function SiteHeader() {
+export function SiteHeader({ content }: { content: PageContent }) {
   return (
     <>
       <header
@@ -72,26 +72,31 @@ export function SiteHeader() {
             Jan Michoin
           </a>
 
-          <nav className="hidden items-center gap-20 md:flex" aria-label="Main navigation">
+          <nav className="hidden items-center gap-20 md:flex" aria-label={content.nav.ariaLabel}>
             <div className="flex items-center gap-[30px] text-[20px] leading-[1.5]">
-              {navItems.map((item) => (
+              {content.nav.items.map((item) => (
                 <a className="transition hover:text-[var(--muted)]" href={item.href} key={item.href}>
                   {item.label}
                 </a>
               ))}
             </div>
-            <a
-              className="rounded-lg bg-[var(--foreground)] px-4 py-2 text-[20px] leading-[1.5] text-[var(--background)] transition hover:bg-[#3a3a3b]"
-              href="#contact"
-            >
-              Contact
-            </a>
+            <div className="flex items-center gap-3">
+              <a
+                className="rounded-lg bg-[var(--foreground)] px-4 py-2 text-[20px] leading-[1.5] text-[var(--background)] transition hover:bg-[#3a3a3b]"
+                href="#contact"
+              >
+                {content.nav.contact}
+              </a>
+              <a className="text-[16px] font-bold leading-[1.5] transition hover:text-[var(--muted)]" href={content.alternatePath} hrefLang={content.locale === "en" ? "cs" : "en"}>
+                {content.languageLabel}
+              </a>
+            </div>
           </nav>
 
           <details className="group md:hidden" id="mobile-menu">
             <summary
               aria-controls="mobile-navigation"
-              aria-label="Toggle menu"
+              aria-label={content.nav.toggleLabel}
               className="relative block size-10 list-none [&::-webkit-details-marker]:hidden"
             >
               <span className="absolute left-1/2 top-1/2 h-1 w-12 -translate-x-1/2 -translate-y-2 rounded-full bg-[var(--foreground)] transition group-open:translate-y-0 group-open:rotate-45" />
@@ -99,22 +104,27 @@ export function SiteHeader() {
             </summary>
 
             <nav
-              aria-label="Mobile navigation"
+              aria-label={content.nav.mobileAriaLabel}
               className="fixed inset-x-0 top-[70px] z-50 bg-[var(--background)] px-5 pb-6"
               id="mobile-navigation"
             >
               <div className="mx-auto max-w-[390px] border-t border-[var(--rule)]">
-                {navItems.map((item) => (
+                {content.nav.items.map((item) => (
                   <a className="block border-b border-[var(--rule)] py-5 text-[32px] font-medium leading-[1.4]" href={item.href} key={item.href}>
                     {item.label}
                   </a>
                 ))}
-                <a
-                  className="mt-5 inline-flex rounded-lg bg-[var(--foreground)] px-4 py-2 text-[32px] leading-[1.4] text-[var(--background)] transition hover:bg-[#3a3a3b]"
-                  href="#contact"
-                >
-                  Contact
-                </a>
+                <div className="mt-5 flex items-center gap-5">
+                  <a
+                    className="inline-flex rounded-lg bg-[var(--foreground)] px-4 py-2 text-[32px] leading-[1.4] text-[var(--background)] transition hover:bg-[#3a3a3b]"
+                    href="#contact"
+                  >
+                    {content.nav.contact}
+                  </a>
+                  <a className="text-[24px] font-bold leading-[1.4]" href={content.alternatePath} hrefLang={content.locale === "en" ? "cs" : "en"}>
+                    {content.languageLabel}
+                  </a>
+                </div>
                 <div className="mt-5 border-b border-[var(--rule)]" />
               </div>
             </nav>

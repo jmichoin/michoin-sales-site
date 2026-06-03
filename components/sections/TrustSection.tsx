@@ -1,19 +1,25 @@
-import { assets, trustItems } from "@/lib/content";
+import { assets } from "@/lib/content";
 import { HighlightedHeading } from "@/components/ui/HighlightedHeading";
 
-export function TrustSection() {
+type TrustContent = {
+  title: string;
+  portraitAlt: string;
+  items: readonly string[];
+};
+
+export function TrustSection({ content }: { content: TrustContent }) {
   return (
     <section className="section-rule scroll-mt-28 space-y-[60px] pt-5" id="about">
       <div className="space-y-5">
-        <HighlightedHeading>Why clients work with me</HighlightedHeading>
+        <HighlightedHeading>{content.title}</HighlightedHeading>
         <div className="grid items-center gap-10 md:grid-cols-[minmax(0,696px)_515px] md:justify-between">
           <ul className="text-[16px] font-normal leading-[1.5] md:text-[30px]">
-            {trustItems.map((item) => (
+            {content.items.map((item) => (
               <li key={item}>— {item}</li>
             ))}
           </ul>
           <div className="relative h-[430px] overflow-hidden md:h-[565px]">
-            <img alt="Portrait of Jan Michoin" className="h-full w-full object-cover" src={assets.profile} />
+            <img alt={content.portraitAlt} className="h-full w-full object-cover" src={assets.profile} />
           </div>
         </div>
       </div>

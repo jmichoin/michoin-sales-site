@@ -1,11 +1,18 @@
 import { assets } from "@/lib/content";
 
-export function Hero() {
+type HeroContent = {
+  title: string;
+  intro: string;
+  introSecondLine: string;
+  tags: readonly string[];
+};
+
+export function Hero({ content }: { content: HeroContent }) {
   return (
     <section className="pt-28 md:pt-[350px]" id="top">
       <div className="space-y-5">
         <h1 className="text-[38px] font-medium leading-[1.15] text-[var(--foreground)] md:text-[60px] md:leading-[1.4]">
-          Bridging strategy, UX and visual design
+          {content.title}
         </h1>
         <div className="grid overflow-hidden md:hidden">
           {assets.heroMobile.map((src, index) => (
@@ -39,14 +46,13 @@ export function Hero() {
 
       <div className="section-rule mt-5 flex flex-col gap-8 pt-5 md:flex-row md:items-start md:justify-between">
         <p className="max-w-[739px] text-[26px] font-medium leading-[1.35] md:text-[30px] md:leading-[1.5]">
-          Branding, UX/UI and digital products <br />
-          - without agency overhead or unnecessary complexity.
+          {content.intro} <br />
+          {content.introSecondLine}
         </p>
         <ul className="space-y-7 text-left text-[14px] uppercase leading-[1.5] tracking-[0.08em] text-[var(--muted)] md:text-right">
-          <li>UX/UI</li>
-          <li>Brand Strategy</li>
-          <li>Digital Products</li>
-          <li>Visual Systems</li>
+          {content.tags.map((tag) => (
+            <li key={tag}>{tag}</li>
+          ))}
         </ul>
       </div>
     </section>

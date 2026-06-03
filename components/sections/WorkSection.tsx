@@ -1,7 +1,7 @@
 import { ArrowButton } from "@/components/ui/ArrowButton";
 import { AutoCarousel } from "@/components/ui/AutoCarousel";
 import { HighlightedHeading } from "@/components/ui/HighlightedHeading";
-import { assets, serviceOffers } from "@/lib/content";
+import { assets } from "@/lib/content";
 
 function OfferGlyph({ variant }: { variant: "product" | "brand" }) {
   const icon = variant === "product" ? assets.offerIcons.ux : assets.offerIcons.brand;
@@ -15,13 +15,24 @@ function OfferGlyph({ variant }: { variant: "product" | "brand" }) {
   );
 }
 
-export function WorkSection() {
+type WorkContent = {
+  title: string;
+  carouselLabel: string;
+  offers: readonly {
+    title: string;
+    items: readonly string[];
+    cta: string;
+    href: string;
+  }[];
+};
+
+export function WorkSection({ content }: { content: WorkContent }) {
   return (
     <section className="scroll-mt-28 space-y-[88px] md:space-y-[72px]" id="work">
       <div className="section-rule pt-5">
-        <HighlightedHeading>You will get</HighlightedHeading>
+        <HighlightedHeading>{content.title}</HighlightedHeading>
         <div className="mt-12 grid gap-16 lg:grid-cols-2 lg:gap-[117px]">
-          {serviceOffers.map((offer, index) => (
+          {content.offers.map((offer, index) => (
             <article className="max-w-[618px]" key={offer.title}>
               <OfferGlyph variant={index === 0 ? "product" : "brand"} />
               <div className="mt-6 space-y-5">
@@ -40,7 +51,7 @@ export function WorkSection() {
         </div>
       </div>
 
-      <div className="-mx-5 md:-mx-[30px]" aria-label="Selected work preview">
+      <div className="-mx-5 md:-mx-[30px]" aria-label={content.carouselLabel}>
         <AutoCarousel images={assets.work} />
       </div>
     </section>

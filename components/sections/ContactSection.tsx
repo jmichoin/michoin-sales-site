@@ -7,7 +7,23 @@ import type { FormEvent } from "react";
 
 type FormStatus = "idle" | "loading" | "success" | "error";
 
-export function ContactSection() {
+type ContactContent = {
+  title: string;
+  intro: string;
+  formLabel: string;
+  fields: {
+    name: string;
+    email: string;
+    company: string;
+    message: string;
+  };
+  send: string;
+  sending: string;
+  success: string;
+  error: string;
+};
+
+export function ContactSection({ content }: { content: ContactContent }) {
   const [status, setStatus] = useState<FormStatus>("idle");
   const [statusMessage, setStatusMessage] = useState("");
 
@@ -46,26 +62,25 @@ export function ContactSection() {
 
       if (!response.ok || !payload?.success) {
         setStatus("error");
-        setStatusMessage(payload?.error ?? "Something went wrong. Please try again.");
+        setStatusMessage(payload?.error ?? content.error);
         return;
       }
 
       form.reset();
       setStatus("success");
-      setStatusMessage("Thanks, your message has been sent.");
+      setStatusMessage(content.success);
     } catch {
       setStatus("error");
-      setStatusMessage("Something went wrong. Please try again.");
+      setStatusMessage(content.error);
     }
   }
 
   return (
     <section className="section-rule scroll-mt-28 pt-5" id="contact">
       <div className="grid gap-8 md:grid-cols-[minmax(260px,534px)_1fr] md:gap-[148px]">
-        <HighlightedHeading>Let&apos;s discuss your project</HighlightedHeading>
+        <HighlightedHeading>{content.title}</HighlightedHeading>
         <p className="max-w-[753px] text-[28px] font-medium leading-[1.3] md:text-[30px]">
-          Whether you need UX clarity, a stronger visual direction or a senior design partner for your team, feel
-          free to reach out.
+          {content.intro}
         </p>
       </div>
 
@@ -78,12 +93,12 @@ export function ContactSection() {
           <a href="tel:+420721673055">(+420) 721 673 055</a>
         </address>
 
-        <form aria-label="Contact form" className="flex flex-col items-end gap-5" onSubmit={handleSubmit}>
+        <form aria-label={content.formLabel} className="flex flex-col items-end gap-5" onSubmit={handleSubmit}>
           <div className="w-full space-y-10">
-            <Field autoComplete="name" label="Your name" name="name" required />
-            <Field autoComplete="email" label="Your email" name="email" required type="email" />
-            <Field autoComplete="organization" label="Your company" name="company" />
-            <Field label="How can I help you" name="message" required textarea />
+            <Field autoComplete="name" label={content.fields.name} name="name" required />
+            <Field autoComplete="email" label={content.fields.email} name="email" required type="email" />
+            <Field autoComplete="organization" label={content.fields.company} name="company" />
+            <Field label={content.fields.message} name="message" required textarea />
           </div>
           <div className="flex w-full flex-col items-end gap-3">
             {statusMessage ? (
@@ -96,7 +111,7 @@ export function ContactSection() {
               </p>
             ) : null}
             <ArrowButton disabled={status === "loading"} type="submit">
-              {status === "loading" ? "Sending..." : "Send"}
+              {status === "loading" ? content.sending : content.send}
             </ArrowButton>
           </div>
         </form>
